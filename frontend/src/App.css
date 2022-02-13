@@ -1,0 +1,105 @@
+.app {
+  display: flex;
+  justify-content: center;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: grey;
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+nav ul a {
+  text-decoration: none;
+  color: white;
+}
+
+nav ul a.active {
+  padding: 10px 15px;
+  background: #247eb9;
+  color: white;
+  font-weight: bold;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem;
+}
+
+.container form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-control {
+  /* margin: 10px; */
+  width: 100%;
+  margin-top: 15px;
+}
+
+.form-control label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-control input {
+  width: 100%;
+  height: 25px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  background: rgb(214, 211, 211);
+}
+
+.form-control button {
+  width: 103%;
+  height: 30px;
+  background: #247eb9;
+  color:white ;
+  cursor: pointer;
+}
+
+.form-control button:hover {
+  background: #065f9b;
+}
+
+.signup_link {
+  margin: 20px 0;
+  text-align: center;
+  padding: 0 0 20px 0;
+  font-size: 16px;
+}
+
+.signup_link a {
+  color: #2691d9;
+  text-decoration: none;
+}
+
+.signup_link a:hover {
+  text-decoration: underline;
+}
+
+.pass {
+  margin-left: 110px;
+  color: #247eb9;
+  cursor: pointer;
+}
+
+.pass:hover {
+  text-decoration: underline;
+}
+
+.form-control p {
+  text-align: center;
+}
