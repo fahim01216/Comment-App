@@ -4,34 +4,60 @@ import { useUserContext } from "./UserContext";
 
 function Comment() {
   const [comments, setComments] = useState([]);
-  useEffect(async () => {
-    const res = await axios.get("/api/comments");
-    console.log(res.data);
-    setComments(res.data);
-  }, []);
-
-  const [user, setUser] = useUserContext();
   const [message, setMessage] = useState("");
+  const { user, logout } = useUserContext();
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const result = await axios.get("http://localhost:3001/api/comments");
+        const data = result.data;
+        console.log(data);
+        setComments(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetch();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = {
-      message,
-      userId: user._id,
-    };
+    try {
+      const commentData = {
+        message,
+        userId: user._id,
+      };
 
-    console.log(data);
+      console.log(commentData);
 
-    const res = await axios.post("/api/comments", data);
-    console.log(res);
+      const result = await axios.post("http://localhost:3001/api/comments", commentData);
+      const data = result.data;
+      console.log(data);
+
+      setComments([...comments, data]);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleFilter = async () => {
-    const res = await axios.get(`/api/comments/${user._id}`);
-    setComments(res.data);
+    try {
+      const result = await axios.get(
+        `http://localhost:3001/api/comments/${user._id}`
+      );
+      const data = result.data;
+      setComments(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
+      <div className="logout">
+        <button onClick={(e) => { logout(); }} >Logout </button>
+      </div>
       <div className="container">
         <form onSubmit={handleSubmit}>
           <div className="form-control">
@@ -50,26 +76,21 @@ function Comment() {
             <button type="submit">Submit</button>
           </div>
         </form>
-
-        <ul>
-          <li>{user.email}</li>
-          <li>{user.password}</li>
-          <li>{user.secret}</li>
-        </ul>
+      </div>
+      <div className="filter">
+        <button onClick={handleFilter}>Filter Button</button>
       </div>
 
       <div>
         {comments.map((comment) => {
           return (
-            <div key={comment._id}>
+            <div className="comment" key={comment._id}>
               <h4>{comment.userId.email}</h4>
               <p>{comment.message}</p>
             </div>
           );
         })}
       </div>
-
-      <button onClick={handleFilter}>Filter Button</button>
     </>
   );
 }

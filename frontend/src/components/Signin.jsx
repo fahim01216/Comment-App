@@ -1,47 +1,46 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useUserContext } from "./UserContext";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Signin() {
-  const [user, setUser] = useUserContext();
   const navigate = useNavigate();
-  const [data, setData] = useState({
+  const auth = useUserContext();
+
+  const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
 
   const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit =  (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(loginData);
 
-    const func = async function() {
+    try {
+      const result = await axios.post("http://localhost:3001/api/user/signin",loginData);
+      const data = result.data;
       console.log(data);
-      const res = await axios.post("/api/user/signin", data);
-      console.log(res.data);
-      setUser(res.data);
-      navigate("/");
+      auth.login(data);
+
+      navigate("/", { replace: true });
+    } catch (error) {
+      console.log(error);
     }
-    func();
   };
 
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
+        <div className="link">Don't have an account?
+        <Link to="/signup">Sign Up</Link>
+        </div>
         <div className="form-control">
-          <div className="signup_link">Don't have an account?
-          <Link to="/signup">Sign Up</Link></div>
           <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            value={data.email}
-            onChange={handleChange}
-          />
+          <input type="email" name="email" id="email" value={loginData.email} onChange={handleChange}/>
         </div>
 
         <div className="form-control">
@@ -50,15 +49,17 @@ function Signin() {
             type="password"
             name="password"
             id="password"
-            value={data.password}
+            value={loginData.password}
             onChange={handleChange}
           />
         </div>
-        <div class="pass">
-        <Link to="/forget-password">Forget Password?</Link>
+
+        <div className="forget-link">
+          <Link to="/forget-password">Forget Password</Link>
         </div>
+
         <div className="form-control">
-          <button type="submit">Sign In</button>
+          <button type="submit">Submit</button>
         </div>
       </form>
     </div>

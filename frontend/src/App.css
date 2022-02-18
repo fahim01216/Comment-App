@@ -74,32 +74,28 @@ nav ul a.active {
   background: #065f9b;
 }
 
-.signup_link {
-  margin: 20px 0;
-  text-align: center;
-  padding: 0 0 20px 0;
-  font-size: 16px;
-}
-
-.signup_link a {
-  color: #2691d9;
-  text-decoration: none;
-}
-
-.signup_link a:hover {
-  text-decoration: underline;
-}
-
-.pass {
+.forget-link {
   margin-left: 110px;
-  color: #247eb9;
   cursor: pointer;
 }
 
-.pass:hover {
+.forget-link:hover {
   text-decoration: underline;
 }
 
 .form-control p {
   text-align: center;
+}
+
+.filter {
+  margin-left: 100px;
+}
+
+.comment {
+  margin-left: 100px;
+}
+
+.logout {
+  margin-left: 750px;
+  margin-top: 10px;
 }

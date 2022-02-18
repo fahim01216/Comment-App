@@ -1,41 +1,41 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Signup() {
   const navigate = useNavigate();
-  const [data, setData] = useState({
+  const [signupData, setSignupData] = useState({
     email: "",
     password: "",
     secret: "",
   });
 
   const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    setSignupData({ ...signupData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(data);
-    navigate("/");
+    console.log(signupData);
 
-    const res = await axios.post("/api/user/signup", data);
-    console.log(res.data);
+    try {
+      const result = await axios.post("http://localhost:3001/api/user/signup",signupData);
+      const data = result.data;
+      console.log(data);
+      navigate("/signin", { replace: true });
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
+        <div className="link">Already have an account?
+        <Link to="/signin">Sign In</Link>
+        </div>
         <div className="form-control">
-          <div class="signup_link">Already have an account?
-          <Link to="/">Sign In</Link></div>
           <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            value={data.email}
-            onChange={handleChange}
-          />
+          <input type="email" name="email" id="email" value={signupData.email} onChange={handleChange} />
         </div>
 
         <div className="form-control">
@@ -44,7 +44,7 @@ function Signup() {
             type="password"
             name="password"
             id="password"
-            value={data.password}
+            value={signupData.password}
             onChange={handleChange}
           />
         </div>
@@ -55,13 +55,13 @@ function Signup() {
             type="secret"
             name="secret"
             id="secret"
-            value={data.secret}
+            value={signupData.secret}
             onChange={handleChange}
           />
         </div>
 
         <div className="form-control">
-          <button type="submit">Sign Up</button>
+          <button type="submit">Submit</button>
         </div>
       </form>
     </div>
